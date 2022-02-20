@@ -19,7 +19,7 @@ class HomeScreenState extends State<HomeScreen> {
   List<Recipe> recipes = getRecipes();
   List<String> userFavorites = getFavoritesIDs();
 
-  DefaultTabController _buildTabView({Widget body}) {
+  DefaultTabController _buildTabView({required Widget body}) {
     double _iconSize = 20.0;
 
     return DefaultTabController(

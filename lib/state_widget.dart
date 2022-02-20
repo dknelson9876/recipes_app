@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,9 +11,10 @@ class StateWidget extends StatefulWidget {
   final Widget child;
 
   StateWidget({
+    Key? key,
     required this.child,
-    this.state,
-  });
+    required this.state,
+  }) : super(key: key);
 
   static _StateWidgetState of(BuildContext context) {
     return (context.dependOnInheritedWidgetOfExactType<_StateDataWidget>()
@@ -27,8 +27,8 @@ class StateWidget extends StatefulWidget {
 }
 
 class _StateWidgetState extends State<StateWidget> {
-  StateModel state;
-  GoogleSignInAccount googleAccount;
+  late StateModel state;
+  late GoogleSignInAccount googleAccount;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
@@ -78,7 +78,7 @@ class _StateDataWidget extends InheritedWidget {
   final _StateWidgetState data;
 
   _StateDataWidget({
-    Key key,
+    Key? key,
     required Widget child,
     required this.data,
   }) : super(key: key, child: child);
