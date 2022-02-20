@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:recipes_app/ui/widgets/google_sign_in_button.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -7,6 +8,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User? result = FirebaseAuth.instance.currentUser;
+
     BoxDecoration _buildBackground() {
       return const BoxDecoration(
         image: DecorationImage(
@@ -35,11 +38,13 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 50.0),
               GoogleSignInButton(
                 // Passing function callback as constructor argument:
-                onPressed: () =>
-                    // We replace the current page.
-                    // After navigating to the replacement, it's not possible
-                    // to go back to the previous screen:
-                    Navigator.of(context).pushReplacementNamed('/'),
+                onPressed: () => result == null
+                    ? Navigator.pushNamed(context, '/signIn')
+                    : Navigator.pushReplacementNamed(context, '/'),
+                // We replace the current page.
+                // After navigating to the replacement, it's not possible
+                // to go back to the previous screen:
+                // Navigator.of(context).pushReplacementNamed('/'),
               ),
             ],
           ),

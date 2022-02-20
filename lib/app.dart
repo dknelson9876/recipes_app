@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:recipes_app/ui/screens/login.dart';
+import 'package:recipes_app/ui/screens/sign_in_page.dart';
 import 'package:recipes_app/ui/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 import 'package:recipes_app/ui/screens/home.dart';
 
@@ -12,9 +12,6 @@ class RecipesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Firebase.initializeApp();
-    User? result = FirebaseAuth.instance.currentUser;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Recipes',
@@ -23,6 +20,7 @@ class RecipesApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomeScreen(),
         '/login': (context) => const LoginScreen(),
+        '/signIn': (context) => const SignInPage(),
       },
     );
   }
