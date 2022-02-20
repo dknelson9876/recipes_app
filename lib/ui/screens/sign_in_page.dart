@@ -44,7 +44,7 @@ class SignInPage extends StatelessWidget {
               "Sign in",
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            GoogleSignIn(),
+            const GoogleSignIn(),
             buildRowDivider(size: size),
             Padding(padding: EdgeInsets.only(bottom: size.height * 0.02)),
             SizedBox(
@@ -130,7 +130,7 @@ class SignInPage extends StatelessWidget {
 }
 
 class GoogleSignIn extends StatefulWidget {
-  GoogleSignIn({Key? key}) : super(key: key);
+  const GoogleSignIn({Key? key}) : super(key: key);
 
   @override
   _GoogleSignInState createState() => _GoogleSignInState();
@@ -151,7 +151,7 @@ class _GoogleSignInState extends State<GoogleSignIn> {
                 setState(() {
                   isLoading = true;
                 });
-                FirebaseService service = new FirebaseService();
+                FirebaseService service = FirebaseService();
                 try {
                   await service.signInWithGoogle();
                   Navigator.pushNamedAndRemoveUntil(
@@ -183,11 +183,11 @@ class _GoogleSignInState extends State<GoogleSignIn> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Error"),
+          title: const Text("Error"),
           content: Text(message),
           actions: [
             TextButton(
-              child: Text("Ok"),
+              child: const Text("Ok"),
               onPressed: () {
                 Navigator.of(context).pop();
               },

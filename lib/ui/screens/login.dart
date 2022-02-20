@@ -8,7 +8,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User? result = FirebaseAuth.instance.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
 
     BoxDecoration _buildBackground() {
       return const BoxDecoration(
@@ -38,7 +38,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 50.0),
               GoogleSignInButton(
                 // Passing function callback as constructor argument:
-                onPressed: () => result == null
+                onPressed: () => user == null
                     ? Navigator.pushNamed(context, '/signIn')
                     : Navigator.pushReplacementNamed(context, '/'),
                 // We replace the current page.
