@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:recipes_app/model/recipe.dart';
 import 'package:recipes_app/utils/store.dart';
 import 'package:recipes_app/ui/widgets/recipe_card.dart';
@@ -14,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> {
   List<Recipe> recipes = getRecipes();
   List<String> userFavorites = getFavoritesIDs();
+  User? user = FirebaseAuth.instance.currentUser;
 
   // Inactive widgets are going to call this method to
   // signalize the parent widget HomeScreen to refresh the list view:
@@ -46,6 +49,22 @@ class HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    Center _buildSettings() {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(user!.email!),
+            Text(user!.displayName!),
+            CircleAvatar(
+              backgroundImage: NetworkImage(user!.photoURL!),
+              radius: 20,
             ),
           ],
         ),
@@ -86,7 +105,7 @@ class HomeScreenState extends State<HomeScreen> {
               _buildRecipes(recipes
                   .where((recipe) => userFavorites.contains(recipe.id))
                   .toList()),
-              const Center(child: Icon(Icons.settings)),
+              _buildSettings(),
             ],
           ),
         ),
