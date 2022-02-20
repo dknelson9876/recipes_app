@@ -12,14 +12,22 @@ Future<GoogleSignInAccount> getSignedInAccount(
   return account;
 }
 
-Future<FirebaseUser> signIntoFirebase(
-    GoogleSignInAccount googleSignInAccount) async {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  GoogleSignInAuthentication googleAuth =
-      await googleSignInAccount.authentication;
-  final AuthCredential credential = GoogleAuthProvider.getCredential(
-      idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
-  AuthResult result = await _auth.signInWithCredential(credential);
+Future<UserCredential> signIntoFirebase(
+  //   GoogleSignInAccount googleSignInAccount) async {
+  // FirebaseAuth _auth = FirebaseAuth.instance;
+  // GoogleSignInAuthentication googleAuth =
+  //     await googleSignInAccount.authentication;
+  // final AuthCredential credential = GoogleAuthProvider.getCredential(
+  //     idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
+  // AuthResult result = await _auth.signInWithCredential(credential);
 
-  return result.user;
+  // return result.user;
+
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+  final credential = GoogleAuthProvider.credential(accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken,);
+
+  return await FirebaseAuth.instance.signInWithCredential(credential);
 }
