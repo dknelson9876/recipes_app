@@ -5,7 +5,7 @@ ThemeData buildTheme() {
     return base.copyWith(
       headline2: base.headline2?.copyWith(
         fontFamily: 'Merriweather',
-        fontSize: 40.0,
+        fontSize: 30.0,
         color: const Color(0xFF807A6B),
       ),
       headline4: base.headline4?.copyWith(
@@ -32,5 +32,10 @@ ThemeData buildTheme() {
       size: 20.0,
     ),
     buttonColor: Colors.white,
+    backgroundColor: Colors.white,
+    tabBarTheme: base.tabBarTheme.copyWith(
+      labelColor: const Color(0xFF807A6B),
+      unselectedLabelColor: const Color(0xFFCCC5AF),
+    ),
   );
 }

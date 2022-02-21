@@ -66,6 +66,15 @@ class _StateWidgetState extends State<StateWidget> {
     });
   }
 
+  Future<void> signOutOfGoogle() async {
+    await service?.signOutFromGoogle();
+    googleAccount = null;
+    state?.user = null;
+    setState(() {
+      state = StateModel(user: null);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return _StateDataWidget(
