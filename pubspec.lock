@@ -142,11 +142,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.0+5"
-<<<<<<< HEAD
-  http:
-=======
   http_parser:
->>>>>>> addStateModelToSignIn
     dependency: transitive
     description:
       name: http_parser
@@ -216,16 +212,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1+1"
-<<<<<<< HEAD
-  quiver_hashcode:
-    dependency: transitive
-    description:
-      name: quiver_hashcode
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
-=======
->>>>>>> addStateModelToSignIn
   sky_engine:
     dependency: transitive
     description: flutter
