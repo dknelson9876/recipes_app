@@ -5,7 +5,7 @@ class FirebaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Future<void> signInWithGoogle() async {
+  Future<User?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await _googleSignIn.signIn();
@@ -15,7 +15,9 @@ class FirebaseService {
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
       );
+
       await _auth.signInWithCredential(credential);
+      return FirebaseAuth.instance.currentUser;
     } on FirebaseAuthException catch (e) {
       print(e.message);
       rethrow;
@@ -27,7 +29,7 @@ class FirebaseService {
     await _auth.signOut();
   }
 
-  Future<User?> getSignedInAccount(/*GoogleSignIn googleSignIn */) async {
+  Future<User?> getSignedInAccount() async {
     User? result = FirebaseAuth.instance.currentUser;
     return result;
   }

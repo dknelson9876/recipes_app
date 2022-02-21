@@ -29,6 +29,7 @@ class StateWidget extends StatefulWidget {
 class _StateWidgetState extends State<StateWidget> {
   StateModel? state;
   User? googleAccount;
+  FirebaseService? service;
 
   @override
   void initState() {
@@ -43,28 +44,27 @@ class _StateWidgetState extends State<StateWidget> {
 
   Future<void> initUser() async {
     //opens sign in dialog on start. need to move it to button onpressed
-    FirebaseService service = FirebaseService();
-    googleAccount = await service.getSignedInAccount();
+    service = FirebaseService();
+    googleAccount = await service?.getSignedInAccount();
 
     if (googleAccount == null) {
-      await service.signInWithGoogle();
+      //if no previous account exists, stop trying to load it so that the login screen shows
+      setState(() {
+        state?.isLoading = false;
+      });
+    } else {
+      //if there is a previous account, load it and then stop loading so that the home screen shows
+      await signInWithGoogle();
     }
-
-    setState(() {
-      state?.isLoading = false;
-    });
   }
 
-  // Future<Null> signInWithGoogle() async {
-  //   if (googleAccount == null) {
-  //     googleAccount = await googleSignIn.signIn();
-  //   }
-  //   // User? firebaseUser = await signIntoFirebase();
-  //   setState(() {
-  //     state?.isLoading = false;
-  //     // state.user = ;
-  //   });
-  // }
+  Future<void> signInWithGoogle() async {
+    googleAccount = await service?.signInWithGoogle();
+    setState(() {
+      state?.isLoading = false;
+      state?.user = googleAccount;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
