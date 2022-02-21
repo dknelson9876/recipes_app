@@ -1,19 +1,19 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:recipes_app/model/state.dart';
-import 'package:recipes_app/utils/auth.dart';
+import 'package:recipes_app/services/firebase_service.dart';
 
 class StateWidget extends StatefulWidget {
-  final StateModel state;
+  final StateModel? state;
   final Widget child;
 
-  StateWidget({
+  const StateWidget({
     Key? key,
     required this.child,
-    required this.state,
+    this.state,
   }) : super(key: key);
 
   static _StateWidgetState of(BuildContext context) {
@@ -27,9 +27,9 @@ class StateWidget extends StatefulWidget {
 }
 
 class _StateWidgetState extends State<StateWidget> {
-  late StateModel state;
-  late GoogleSignInAccount googleAccount;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  StateModel? state;
+  User? googleAccount;
+  FirebaseService? service;
 
   @override
   void initState() {
@@ -42,26 +42,27 @@ class _StateWidgetState extends State<StateWidget> {
     }
   }
 
-  Future<Null> initUser() async {
-    googleAccount = await getSignedInAccount(googleSignIn);
+  Future<void> initUser() async {
+    //opens sign in dialog on start. need to move it to button onpressed
+    service = FirebaseService();
+    googleAccount = await service?.getSignedInAccount();
 
     if (googleAccount == null) {
+      //if no previous account exists, stop trying to load it so that the login screen shows
       setState(() {
-        state.isLoading = false;
+        state?.isLoading = false;
       });
     } else {
+      //if there is a previous account, load it and then stop loading so that the home screen shows
       await signInWithGoogle();
     }
   }
 
-  Future<Null> signInWithGoogle() async {
-    if (googleAccount == null) {
-      googleAccount = await googleSignIn.signIn();
-    }
-    FirebaseUser firebaseUser = await signIntoFirebase(googleAccount);
+  Future<void> signInWithGoogle() async {
+    googleAccount = await service?.signInWithGoogle();
     setState(() {
-      state.isLoading = false;
-      state.user = firebaseUser;
+      state?.isLoading = false;
+      state?.user = googleAccount;
     });
   }
 

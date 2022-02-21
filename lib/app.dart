@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:recipes_app/ui/screens/login.dart';
+import 'package:recipes_app/ui/screens/sign_in_page.dart';
 import 'package:recipes_app/ui/theme.dart';
 
 import 'package:recipes_app/ui/screens/home.dart';
@@ -17,6 +18,7 @@ class RecipesApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomeScreen(),
         '/login': (context) => const LoginScreen(),
+        '/signIn': (context) => const SignInPage(),
       },
     );
   }
