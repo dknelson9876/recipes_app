@@ -14,10 +14,10 @@ class RecipesApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Recipes',
       theme: buildTheme(),
-      initialRoute: '/login',
       routes: {
         '/': (context) => const HomeScreen(),
         '/login': (context) => const LoginScreen(),
+        // '/signIn': (context) => const SignInPage(),
       },
     );
   }

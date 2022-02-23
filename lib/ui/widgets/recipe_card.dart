@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:recipes_app/model/recipe.dart';
+import 'package:recipes_app/ui/widgets/recipe_title.dart';
+import 'package:recipes_app/ui/widgets/recipe_image.dart';
+import 'package:recipes_app/ui/screens/detail.dart';
 
 class RecipeCard extends StatelessWidget {
   const RecipeCard({
@@ -30,34 +33,16 @@ class RecipeCard extends StatelessWidget {
       );
     }
 
-    Padding _buildTitleSection() {
-      return Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              recipe.name,
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            const SizedBox(height: 10.0),
-            Row(
-              children: [
-                const Icon(Icons.timer_outlined, size: 20.0),
-                const SizedBox(width: 5.0),
-                Text(
-                  recipe.duration.toString(),
-                  style: Theme.of(context).textTheme.caption,
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    }
-
     return GestureDetector(
-      onTap: () => print('tapped'),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailScreen(
+            recipe: recipe,
+            inFavorites: inFavorites,
+          ),
+        ),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         child: Card(
@@ -67,13 +52,7 @@ class RecipeCard extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  AspectRatio(
-                    aspectRatio: 16.0 / 9.0,
-                    child: Image.network(
-                      recipe.imageURL,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  RecipeImage(recipe.imageURL),
                   Positioned(
                     child: _buildFavoriteButton(),
                     top: 2.0,
@@ -81,7 +60,7 @@ class RecipeCard extends StatelessWidget {
                   ),
                 ],
               ),
-              _buildTitleSection(),
+              RecipeTitle(recipe, 15),
             ],
           ),
         ),
