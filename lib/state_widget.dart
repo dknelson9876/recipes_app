@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:recipes_app/model/recipe.dart';
 
 import 'package:recipes_app/model/state.dart';
 import 'package:recipes_app/services/firebase_service.dart';
@@ -31,6 +32,8 @@ class _StateWidgetState extends State<StateWidget> {
   StateModel? state;
   User? googleAccount;
   FirebaseService? service;
+  final CollectionReference _recipes =
+      FirebaseFirestore.instance.collection('recipes');
 
   @override
   void initState() {
@@ -88,6 +91,13 @@ class _StateWidgetState extends State<StateWidget> {
       return List<String>.from(querySnapshot['favorites']);
     }
     return [];
+  }
+
+  Future<void> uploadRecipe(BuildContext context, Object recipe) async {
+    await _recipes.add(recipe);
+
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Successfully uploaded')));
   }
 
   @override

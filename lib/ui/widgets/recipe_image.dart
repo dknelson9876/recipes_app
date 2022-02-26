@@ -9,10 +9,12 @@ class RecipeImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 16.0 / 9.0,
-      child: Image.network(
-        imageURL,
-        fit: BoxFit.cover,
-      ),
+      child: imageURL == ""
+          ? Image.asset('assets/default-recipe-image.jpg')
+          : Image.network(
+              imageURL,
+              fit: BoxFit.cover,
+            ),
     );
   }
 }

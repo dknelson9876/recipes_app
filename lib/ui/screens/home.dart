@@ -7,6 +7,7 @@ import 'package:recipes_app/model/recipe.dart';
 import 'package:recipes_app/model/state.dart';
 import 'package:recipes_app/state_widget.dart';
 import 'package:recipes_app/ui/screens/login.dart';
+import 'package:recipes_app/ui/screens/new_recipe.dart';
 import 'package:recipes_app/ui/widgets/settings_button.dart';
 import 'package:recipes_app/utils/store.dart';
 import 'package:recipes_app/ui/widgets/recipe_card.dart';
@@ -91,50 +92,61 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   TabBarView _buildTabsContent() {
-    Padding _buildRecipes({RecipeType? recipeType, List<String>? ids}) {
+    Scaffold _buildRecipes({RecipeType? recipeType, List<String>? ids}) {
       CollectionReference recipes =
           FirebaseFirestore.instance.collection('recipes');
       Stream<QuerySnapshot> stream;
+      bool includeAddButton = false;
 
       //The argument recipeType is set
       if (recipeType != null) {
         stream = recipes.where("type", isEqualTo: recipeType.index).snapshots();
+        includeAddButton = true;
       } else {
         //use snapshots of all recipes if recipeType has not been passed
         stream = recipes.snapshots();
       }
 
-      return Padding(
-        // Padding before and after the list view:
-        padding: const EdgeInsets.symmetric(vertical: 5.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: StreamBuilder(
-                stream: stream,
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (!snapshot.hasData) return _buildLoadingIndicator();
+      return Scaffold(
+        body: Padding(
+          // Padding before and after the list view:
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: StreamBuilder(
+                  stream: stream,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData) return _buildLoadingIndicator();
 
-                  return ListView(
-                    children: snapshot.data!.docs
-                        .where((d) => ids == null || ids.contains(d.id))
-                        .map((document) {
-                      return RecipeCard(
-                        recipe: Recipe.fromMap(
-                            document.data() as Map<String, dynamic>,
-                            document.id),
-                        inFavorites:
-                            appState?.favorites?.contains(document.id) ?? false,
-                        onFavoriteButtonPressed: _handleFavoritesListChanged,
-                      );
-                    }).toList(),
-                  );
-                },
+                    return ListView(
+                      children: snapshot.data!.docs
+                          .where((d) => ids == null || ids.contains(d.id))
+                          .map((document) {
+                        return RecipeCard(
+                          recipe: Recipe.fromMap(
+                              document.data() as Map<String, dynamic>,
+                              document.id),
+                          inFavorites:
+                              appState?.favorites?.contains(document.id) ??
+                                  false,
+                          onFavoriteButtonPressed: _handleFavoritesListChanged,
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        floatingActionButton: includeAddButton
+            ? FloatingActionButton(
+                child: const Icon(Icons.add),
+                onPressed: () => {createRecipe(context, RecipeType.food)},
+              )
+            : null,
       );
     }
 
