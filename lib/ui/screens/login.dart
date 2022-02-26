@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:recipes_app/state_widget.dart';
 import 'package:recipes_app/ui/widgets/google_sign_in_button.dart';
 
@@ -9,7 +9,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User? user = FirebaseAuth.instance.currentUser;
+    // User? user = FirebaseAuth.instance.currentUser;
 
     BoxDecoration _buildBackground() {
       return const BoxDecoration(
