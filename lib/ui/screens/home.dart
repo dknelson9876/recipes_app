@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   StateModel? appState;
-  User? user = FirebaseAuth.instance.currentUser;
+  // User? user = FirebaseAuth.instance.currentUser;
 
   DefaultTabController _buildTabView({required Widget body}) {
     const double _iconSize = 20.0;
@@ -193,7 +193,7 @@ class HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
-                backgroundImage: NetworkImage(user!.photoURL!),
+                backgroundImage: NetworkImage(appState!.user!.photoURL!),
                 radius: 20,
               ),
             ),
