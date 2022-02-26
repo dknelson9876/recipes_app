@@ -68,8 +68,9 @@ class _DetailScreenState extends State<DetailScreen>
                   ],
                 ),
               ),
+              //TODO: make this dynamic
               expandedHeight: 360.0,
-              // primary: true,
+              primary: true,
               pinned: true,
               floating: true,
               elevation: 2.0,
@@ -94,10 +95,10 @@ class _DetailScreenState extends State<DetailScreen>
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // updateFavorites(appState?.user?.uid, widget.recipe.id).then((result) {
-          //   if (result) _toggleInFavorites();
-          // });
-          print("favorit button");
+          updateFavorites(appState!.user!.uid, widget.recipe.id).then((result) {
+            if (result) _toggleInFavorites();
+          });
+          // print("favorit button");
         },
         child: Icon(
           _inFavorites! ? Icons.favorite : Icons.favorite_border,
@@ -122,8 +123,8 @@ class IngredientsView extends StatelessWidget {
       children.add(
         Row(
           children: [
-            Icon(Icons.done),
-            SizedBox(width: 5.0),
+            const Icon(Icons.done),
+            const SizedBox(width: 5.0),
             Text(item),
           ],
         ),
@@ -135,7 +136,7 @@ class IngredientsView extends StatelessWidget {
       );
     });
     return ListView(
-      padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 75.0),
+      padding: const EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 75.0),
       children: children,
     );
   }
@@ -159,8 +160,9 @@ class PreparationView extends StatelessWidget {
         ),
       );
     });
+
     return ListView(
-      padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 75.0),
+      padding: const EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 75.0),
       children: textElements,
     );
   }
