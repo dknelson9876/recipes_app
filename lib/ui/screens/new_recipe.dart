@@ -60,7 +60,6 @@ Future<void> createRecipe(BuildContext context, RecipeType recipeType) async {
                     onPressed: () async {
                       // print('submit');
 
-                      //TODO submit new recipe to firestore
                       final String? name = _nameController.text;
                       final int? duration = int.tryParse(_timeController.text);
                       final List<String>? ingredients =

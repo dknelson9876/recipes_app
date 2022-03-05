@@ -9,19 +9,19 @@ Future<bool> updateFavorites(String uid, String recipeID) {
     if (postSnapshot.exists) {
       //extend 'favorites' if the list does not contain the recipe id:
       if (!postSnapshot.get('favorites').contains(recipeID)) {
-        await tx.update(favoritesReference, <String, dynamic>{
+        tx.update(favoritesReference, <String, dynamic>{
           'favorites': FieldValue.arrayUnion([recipeID])
         });
         //Delete the recipe ID from 'favorites'
       } else {
-        await tx.update(favoritesReference, <String, dynamic>{
+        tx.update(favoritesReference, <String, dynamic>{
           'favorites': FieldValue.arrayRemove([recipeID])
         });
       }
     } else {
       //create a document for the current user in collection 'users'
       // and add a new array 'favorites' to the document
-      await tx.set(favoritesReference, {
+      tx.set(favoritesReference, {
         'favorites': [recipeID]
       });
     }
