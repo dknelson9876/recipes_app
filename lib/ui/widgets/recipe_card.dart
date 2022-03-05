@@ -25,10 +25,11 @@ class RecipeCard extends StatelessWidget {
         onPressed: () => onFavoriteButtonPressed(recipe.id),
         child: Icon(
           inFavorites ? Icons.favorite : Icons.favorite_border,
-          color: Theme.of(context).iconTheme.color,
+          // color: Theme.of(context).iconTheme.color,
         ),
         elevation: 2.0,
-        fillColor: Theme.of(context).buttonColor,
+        // fillColor: Theme.of(context).buttonColor,
+        fillColor: Theme.of(context).cardColor,
         shape: const CircleBorder(),
       );
     }

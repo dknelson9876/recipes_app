@@ -33,11 +33,11 @@ class HomeScreenState extends State<HomeScreen> {
           // We set Size equal to passed height (50.0) and infinite width:
           preferredSize: const Size.fromHeight(50.0),
           child: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
+            // backgroundColor: Theme.of(context).primaryColor,
             elevation: 2.0,
-            bottom: TabBar(
-              labelColor: Theme.of(context).indicatorColor,
-              tabs: const [
+            bottom: const TabBar(
+              // labelColor: Theme.of(context).indicatorColor,
+              tabs: [
                 Tab(icon: Icon(Icons.restaurant, size: _iconSize)),
                 Tab(icon: Icon(Icons.local_drink, size: _iconSize)),
                 Tab(icon: Icon(Icons.favorite, size: _iconSize)),

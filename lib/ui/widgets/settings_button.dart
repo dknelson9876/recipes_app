@@ -11,7 +11,7 @@ class SettingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      textColor: const Color(0xFF807A6B),
+      // textColor: const Color(0xFF807A6B),
       padding: const EdgeInsets.all(20.0),
       onPressed: onPressed,
       child: Row(
