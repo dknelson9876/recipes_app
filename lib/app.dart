@@ -1,5 +1,8 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:recipes_app/main.dart';
+import 'package:recipes_app/services/firebase_service.dart';
 
 import 'package:recipes_app/ui/screens/login.dart';
 import 'package:recipes_app/ui/theme.dart';
@@ -13,16 +16,20 @@ class RecipesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Recipes',
-      theme: buildTheme(),
-      themeMode: themeMode,
-      routes: {
-        '/': (context) => const HomeScreen(),
-        '/login': (context) => const LoginScreen(),
-        // '/signIn': (context) => const SignInPage(),
-      },
+    return ChangeNotifierProvider(
+      create: (context) => FirebaseService(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Recipes',
+        theme: buildTheme(),
+        themeMode: themeMode,
+        scaffoldMessengerKey: snackbarKey,
+        routes: {
+          '/': (context) => const HomeScreen(),
+          '/login': (context) => const LoginScreen(),
+          // '/signIn': (context) => const SignInPage(),
+        },
+      ),
     );
   }
 }

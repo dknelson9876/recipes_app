@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:recipes_app/model/recipe.dart';
+import 'package:recipes_app/services/firebase_service.dart';
 import 'package:recipes_app/state_widget.dart';
 
 Future<void> createRecipe(BuildContext context, RecipeType recipeType) async {
@@ -76,7 +78,9 @@ Future<void> createRecipe(BuildContext context, RecipeType recipeType) async {
                       'type': recipeType.index,
                     };
 
-                    StateWidget.of(context).uploadRecipe(context, recipe);
+                    context
+                        .read<FirebaseService>()
+                        .uploadRecipe(context, recipe);
 
                     _nameController.clear();
                     _timeController.clear();

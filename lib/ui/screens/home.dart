@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 import 'package:recipes_app/model/recipe.dart';
-import 'package:recipes_app/model/state.dart';
-import 'package:recipes_app/state_widget.dart';
+// import 'package:recipes_app/model/state.dart';
+import 'package:recipes_app/services/firebase_service.dart';
+// import 'package:recipes_app/state_widget.dart';
 import 'package:recipes_app/ui/screens/login.dart';
 import 'package:recipes_app/ui/screens/new_recipe.dart';
 import 'package:recipes_app/ui/widgets/settings_button.dart';
@@ -20,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  StateModel? appState;
+  // StateModel? appState;
   // User? user = FirebaseAuth.instance.currentUser;
 
   DefaultTabController _buildTabView({required Widget body}) {
@@ -55,11 +57,12 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildContent() {
-    if (appState!.isLoading) {
+    FirebaseService service = Provider.of<FirebaseService>(context);
+    if (service.isLoading) {
       return _buildTabView(
         body: _buildLoadingIndicator(),
       );
-    } else if (!appState!.isLoading && appState!.user == null) {
+    } else if (service.isLoading && service.user == null) {
       return const LoginScreen();
     } else {
       return _buildTabView(
@@ -77,18 +80,9 @@ class HomeScreenState extends State<HomeScreen> {
   // Inactive widgets are going to call this method to
   // signalize the parent widget HomeScreen to refresh the list view:
   void _handleFavoritesListChanged(String recipeID) {
-    updateFavorites(appState!.user!.uid, recipeID).then((result) {
-      //update the state:
-      if (result == true) {
-        setState(() {
-          if (!appState!.favorites!.contains(recipeID)) {
-            appState?.favorites?.add(recipeID);
-          } else {
-            appState?.favorites?.remove(recipeID);
-          }
-        });
-      }
-    });
+    FirebaseService service =
+        Provider.of<FirebaseService>(context, listen: false);
+    service.updateFavorites(recipeID);
   }
 
   TabBarView _buildTabsContent() {
@@ -128,9 +122,9 @@ class HomeScreenState extends State<HomeScreen> {
                           recipe: Recipe.fromMap(
                               document.data() as Map<String, dynamic>,
                               document.id),
-                          inFavorites:
-                              appState?.favorites?.contains(document.id) ??
-                                  false,
+                          // inFavorites: Provider.of<FirebaseService>(context)
+                          //     .favorites
+                          //     .contains(document.id),
                           onFavoriteButtonPressed: _handleFavoritesListChanged,
                         );
                       }).toList(),
@@ -154,7 +148,7 @@ class HomeScreenState extends State<HomeScreen> {
       children: [
         _buildRecipes(recipeType: RecipeType.food),
         _buildRecipes(recipeType: RecipeType.drink),
-        _buildRecipes(ids: appState!.favorites!),
+        _buildRecipes(ids: Provider.of<FirebaseService>(context).favorites),
         _buildSettings(),
       ],
     );
@@ -184,16 +178,22 @@ class HomeScreenState extends State<HomeScreen> {
             SettingsButton(
               Icons.exit_to_app,
               "Log out",
-              appState?.user!.displayName ?? 'User',
+              // appState?.user!.displayName ?? 'User',
+              context.select<FirebaseService, String>(
+                (service) => service.user!.displayName!,
+              ),
               () async {
-                await StateWidget.of(context).signOutOfGoogle();
+                await Provider.of<FirebaseService>(context).signOutFromGoogle();
               },
             ),
             const Spacer(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
-                backgroundImage: NetworkImage(appState!.user!.photoURL!),
+                backgroundImage:
+                    NetworkImage(context.select<FirebaseService, String>(
+                  (service) => service.user!.photoURL!,
+                ) /*appState!.user!.photoURL!*/),
                 radius: 20,
               ),
             ),
@@ -205,7 +205,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    appState = StateWidget.of(context).state;
+    // appState = StateWidget.of(context).state;
     return _buildContent();
   }
 }

@@ -47,17 +47,18 @@ class _StateWidgetState extends State<StateWidget> {
   }
 
   Future<void> initUser() async {
-    //opens sign in dialog on start. need to move it to button onpressed
     service = FirebaseService();
-    googleAccount = await service?.getSignedInAccount();
+    // googleAccount = await service?.getSignedInAccount();
 
     if (googleAccount == null) {
-      //if no previous account exists, stop trying to load it so that the login screen shows
+      //if no previous account exists, stop trying to load it so that the
+      //login screen shows
       setState(() {
         state?.isLoading = false;
       });
     } else {
-      //if there is a previous account, load it and then stop loading so that the home screen shows
+      //if there is a previous account, load it and then stop loading so that
+      //the home screen shows
       await signInWithGoogle();
     }
   }

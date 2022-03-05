@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:recipes_app/model/recipe.dart';
 import 'package:recipes_app/ui/widgets/recipe_title.dart';
-import 'package:recipes_app/model/state.dart';
-import 'package:recipes_app/state_widget.dart';
-import 'package:recipes_app/utils/store.dart';
+// import 'package:recipes_app/model/state.dart';
+// import 'package:recipes_app/state_widget.dart';
+// import 'package:recipes_app/utils/store.dart';
+import 'package:recipes_app/services/firebase_service.dart';
 import 'package:recipes_app/ui/widgets/recipe_image.dart';
 
 class DetailScreen extends StatefulWidget {
   final Recipe recipe;
-  final bool inFavorites;
+  // final bool inFavorites;
 
-  const DetailScreen(
-      {Key? key, required this.recipe, required this.inFavorites})
-      : super(key: key);
+  const DetailScreen({Key? key, required this.recipe}) : super(key: key);
 
   @override
   _DetailScreenState createState() => _DetailScreenState();
@@ -24,14 +24,14 @@ class _DetailScreenState extends State<DetailScreen>
   TabController? _tabController;
   ScrollController? _scrollController;
   bool? _inFavorites;
-  StateModel? appState;
+  // StateModel? appState;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 2);
     _scrollController = ScrollController();
-    _inFavorites = widget.inFavorites;
+    // _inFavorites = widget.inFavorites;
   }
 
   @override
@@ -41,15 +41,15 @@ class _DetailScreenState extends State<DetailScreen>
     super.dispose();
   }
 
-  void _toggleInFavorites() {
-    setState(() {
-      _inFavorites = !_inFavorites!;
-    });
-  }
+  // void _toggleInFavorites() {
+  //   setState(() {
+  //     _inFavorites = !_inFavorites!;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    appState = StateWidget.of(context).state;
+    // appState = StateWidget.of(context).state;
 
     return Scaffold(
       body: NestedScrollView(
@@ -95,13 +95,18 @@ class _DetailScreenState extends State<DetailScreen>
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          updateFavorites(appState!.user!.uid, widget.recipe.id).then((result) {
-            if (result) _toggleInFavorites();
+          Provider.of<FirebaseService>(context, listen: false)
+              .updateFavorites(widget.recipe.id)
+              .then((result) {
+            // if (result) _toggleInFavorites();
           });
           // print("favorit button");
         },
         child: Icon(
-          _inFavorites! ? Icons.favorite : Icons.favorite_border,
+          context.select<FirebaseService, bool>(
+                  (service) => service.favorites.contains(widget.recipe.id))
+              ? Icons.favorite
+              : Icons.favorite_border,
           // color: Theme.of(context).iconTheme.color,
         ),
         elevation: 2.0,
