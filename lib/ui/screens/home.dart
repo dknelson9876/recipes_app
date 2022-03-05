@@ -57,12 +57,12 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildContent() {
-    FirebaseService service = Provider.of<FirebaseService>(context);
+    FirebaseService service = context.watch<FirebaseService>();
     if (service.isLoading) {
       return _buildTabView(
         body: _buildLoadingIndicator(),
       );
-    } else if (service.isLoading && service.user == null) {
+    } else if (!service.isLoading && service.user == null) {
       return const LoginScreen();
     } else {
       return _buildTabView(
@@ -180,22 +180,46 @@ class HomeScreenState extends State<HomeScreen> {
               "Log out",
               // appState?.user!.displayName ?? 'User',
               context.select<FirebaseService, String>(
-                (service) => service.user!.displayName!,
+                (service) => service.user?.displayName ?? 'Sign in',
               ),
               () async {
-                await Provider.of<FirebaseService>(context).signOutFromGoogle();
+                await context.read<FirebaseService>().signOutFromGoogle();
               },
             ),
             const Spacer(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                backgroundImage:
-                    NetworkImage(context.select<FirebaseService, String>(
-                  (service) => service.user!.photoURL!,
-                ) /*appState!.user!.photoURL!*/),
-                radius: 20,
-              ),
+              child: (() {
+                String? photoURL = context.select<FirebaseService, String?>(
+                    (service) => service.user?.photoURL);
+
+                if (photoURL == null) {
+                  return const CircleAvatar(
+                    child: Text('U'),
+                  );
+                } else {
+                  return CircleAvatar(backgroundImage: NetworkImage(photoURL));
+                }
+              }()),
+
+              // child: (() {
+              //     String photoURL = context.select<FirebaseService, String>(
+              //     (service) => service.user!.photoURL!;
+
+              //     if(photURL == null){
+              //       return CircleAvatar(backgroundColor: Theme.of(context).primaryColor,);
+              //     } else {
+
+              //   return CircleAvatar(backgroundImage: NetworkImage(photoURL));
+              //     }
+
+              // }())
+
+              //   NetworkImage(context.select<FirebaseService, String>(
+              // (service) => service.user!.photoURL!,
+              // ) /*appState!.user!.photoURL!*/),
+              // radius: 20,
+              // ),
             ),
           ],
         ),

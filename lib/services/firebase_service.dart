@@ -9,7 +9,7 @@ class FirebaseService extends ChangeNotifier {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   User? user;
   bool isLoading = true;
-  late List<String> favorites;
+  List<String> favorites = [];
   final CollectionReference _recipes =
       FirebaseFirestore.instance.collection('recipes');
 
@@ -27,14 +27,21 @@ class FirebaseService extends ChangeNotifier {
     } else {
       //if there is a previous login, load it then stop loading so that
       // the home screen shows
-      user = await signInWithGoogle();
+      user = await signInWithGooglePopup();
       favorites = await getFavorites();
       isLoading = false;
     }
     notifyListeners();
   }
 
-  Future<User?> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
+    user = await signInWithGooglePopup();
+    favorites = await getFavorites();
+    isLoading = false;
+    notifyListeners();
+  }
+
+  Future<User?> signInWithGooglePopup() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await _googleSignIn.signIn();
@@ -46,7 +53,7 @@ class FirebaseService extends ChangeNotifier {
       );
 
       await _auth.signInWithCredential(credential);
-      notifyListeners();
+      // notifyListeners();
       return FirebaseAuth.instance.currentUser;
     } on FirebaseAuthException catch (e) {
       print(e.message);

@@ -64,7 +64,7 @@ class _StateWidgetState extends State<StateWidget> {
   }
 
   Future<void> signInWithGoogle() async {
-    googleAccount = await service?.signInWithGoogle();
+    // googleAccount = await service?.signInWithGoogle();
     state?.user = googleAccount;
     List<String> favorites = await getFavorites();
     setState(() {

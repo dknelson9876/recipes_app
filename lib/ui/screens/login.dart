@@ -41,7 +41,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 50.0),
               GoogleSignInButton(
                 onPressed: () =>
-                    Provider.of<FirebaseService>(context).signInWithGoogle(),
+                    context.read<FirebaseService>().signInWithGoogle(),
               ),
             ],
           ),
