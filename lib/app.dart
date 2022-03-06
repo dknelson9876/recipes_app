@@ -5,6 +5,7 @@ import 'package:recipes_app/main.dart';
 import 'package:recipes_app/services/firebase_service.dart';
 
 import 'package:recipes_app/ui/screens/login.dart';
+import 'package:recipes_app/ui/screens/new_recipe.dart';
 import 'package:recipes_app/ui/theme.dart';
 
 import 'package:recipes_app/ui/screens/home.dart';
@@ -27,6 +28,7 @@ class RecipesApp extends StatelessWidget {
         routes: {
           '/': (context) => const HomeScreen(),
           '/login': (context) => const LoginScreen(),
+          '/newRecipe': (context) => const NewRecipeScreen(),
           // '/signIn': (context) => const SignInPage(),
         },
       ),

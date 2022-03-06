@@ -59,7 +59,7 @@ class RecipeCard extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  RecipeImage(recipe.imageURL),
+                  RecipeImage(recipe.imageURL, recipe.id),
                   Positioned(
                     child: _buildFavoriteButton(),
                     top: 2.0,

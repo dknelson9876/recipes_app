@@ -138,7 +138,15 @@ class HomeScreenState extends State<HomeScreen> {
         floatingActionButton: includeAddButton
             ? FloatingActionButton(
                 child: const Icon(Icons.add),
-                onPressed: () => {createRecipe(context, RecipeType.food)},
+                onPressed: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChangeNotifierProvider(
+                                create: (context) => NewRecipeState(),
+                                builder: (context, _) => NewRecipeScreen(),
+                              )))
+                },
               )
             : null,
       );

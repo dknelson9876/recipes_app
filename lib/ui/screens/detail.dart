@@ -63,7 +63,7 @@ class _DetailScreenState extends State<DetailScreen>
                 background: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    RecipeImage(widget.recipe.imageURL),
+                    RecipeImage(widget.recipe.imageURL, widget.recipe.id),
                     RecipeTitle(widget.recipe, 25.0),
                   ],
                 ),

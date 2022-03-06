@@ -1,3 +1,4 @@
+import 'package:duration/duration.dart';
 import 'package:flutter/material.dart';
 
 import 'package:recipes_app/model/recipe.dart';
@@ -25,7 +26,8 @@ class RecipeTitle extends StatelessWidget {
               const Icon(Icons.timer, size: 20.0),
               const SizedBox(width: 5.0),
               Text(
-                recipe.duration.toString(),
+                prettyDuration(recipe.duration),
+                // recipe.duration.toString(),
                 style: Theme.of(context).textTheme.caption,
               ),
             ],

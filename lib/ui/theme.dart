@@ -21,7 +21,7 @@ ThemeData buildTheme() {
   }
 
   final ThemeData base =
-      FlexColorScheme.light(scheme: FlexScheme.mango).toTheme;
+      FlexColorScheme.light(scheme: FlexScheme.jungle).toTheme;
 
   return base.copyWith(
     textTheme: _buildTextTheme(base.textTheme),
