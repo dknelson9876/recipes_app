@@ -41,8 +41,8 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                     TextFormField(
                       // controller: _nameController,
                       onSaved: (value) => {_name = value},
-
                       decoration: const InputDecoration(labelText: 'Name'),
+                      textInputAction: TextInputAction.next,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter a name';
@@ -55,6 +55,7 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                       decoration: const InputDecoration(labelText: 'Duration'),
                       keyboardType:
                           const TextInputType.numberWithOptions(decimal: false),
+                      textInputAction: TextInputAction.next,
                       validator: (value) {
                         String pattern = "^\\d+\$";
                         RegExp regExp = RegExp(pattern);
@@ -69,6 +70,7 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                         labelText: 'Ingredients',
                         helperText: 'Separate list using semicolons \';\'',
                       ),
+                      textInputAction: TextInputAction.next,
                     ),
                     TextFormField(
                       onSaved: (value) => {_preparation = value?.split(';')},
@@ -76,6 +78,7 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                         labelText: 'Preparation',
                         helperText: 'Separate list using semicolons \';\'',
                       ),
+                      textInputAction: TextInputAction.next,
                     ),
                     TextFormField(
                       onSaved: (value) => {_imageLink = value},
@@ -87,6 +90,7 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                           return 'Please enter a valid link';
                         }
                       },
+                      textInputAction: TextInputAction.done,
                     ),
                     Consumer<NewRecipeState>(
                       builder: (context, recipeState, _) => RecipeTypeSelector(
