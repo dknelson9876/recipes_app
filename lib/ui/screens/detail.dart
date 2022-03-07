@@ -64,7 +64,8 @@ class _DetailScreenState extends State<DetailScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     RecipeImage(widget.recipe.imageURL, widget.recipe.id),
-                    RecipeTitle(widget.recipe, 25.0),
+                    RecipeTitle(widget.recipe, 25.0,
+                        Theme.of(context).colorScheme.onPrimary),
                   ],
                 ),
               ),

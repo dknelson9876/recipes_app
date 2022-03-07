@@ -67,7 +67,8 @@ class RecipeCard extends StatelessWidget {
                   ),
                 ],
               ),
-              RecipeTitle(recipe, 15),
+              RecipeTitle(
+                  recipe, 15, Theme.of(context).colorScheme.onBackground),
             ],
           ),
         ),
