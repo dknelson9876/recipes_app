@@ -24,6 +24,11 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    OutlineInputBorder border = OutlineInputBorder(
+      borderSide: const BorderSide(),
+      borderRadius: BorderRadius.circular(16),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('New Recipe'),
@@ -41,7 +46,8 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                     TextFormField(
                       // controller: _nameController,
                       onSaved: (value) => {_name = value},
-                      decoration: const InputDecoration(labelText: 'Name'),
+                      decoration:
+                          InputDecoration(labelText: 'Name', border: border),
                       textInputAction: TextInputAction.next,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -50,9 +56,45 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                         return null;
                       },
                     ),
+                    GestureDetector(
+                      onTap: _findImage,
+                      child: Container(
+                        margin: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 12),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(16),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.secondary,
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onSecondary,
+                              child: const Icon(Icons.insert_photo),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Add photo',
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     TextFormField(
                       onSaved: (value) => _duration = int.tryParse(value!),
-                      decoration: const InputDecoration(labelText: 'Duration'),
+                      decoration: InputDecoration(
+                        labelText: 'Duration',
+                        border: border,
+                      ),
                       keyboardType:
                           const TextInputType.numberWithOptions(decimal: false),
                       textInputAction: TextInputAction.next,
@@ -64,34 +106,40 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                         }
                       },
                     ),
+                    const SizedBox(height: 16),
                     TextFormField(
                       onSaved: (value) => {_ingredients = value?.split(';')},
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Ingredients',
                         helperText: 'Separate list using semicolons \';\'',
+                        border: border,
                       ),
                       textInputAction: TextInputAction.next,
                     ),
+                    const SizedBox(height: 12),
                     TextFormField(
                       onSaved: (value) => {_preparation = value?.split(';')},
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Preparation',
                         helperText: 'Separate list using semicolons \';\'',
+                        border: border,
                       ),
                       textInputAction: TextInputAction.next,
                     ),
-                    TextFormField(
-                      onSaved: (value) => {_imageLink = value},
-                      decoration:
-                          const InputDecoration(labelText: 'Link to Image'),
-                      keyboardType: TextInputType.url,
-                      validator: (value) {
-                        if (value != "" && !Uri.parse(value!).isAbsolute) {
-                          return 'Please enter a valid link';
-                        }
-                      },
-                      textInputAction: TextInputAction.done,
-                    ),
+                    // TextFormField(
+                    //   onSaved: (value) => {_imageLink = value},
+                    //   decoration: InputDecoration(
+                    //     labelText: 'Link to Image',
+                    //     border: border,
+                    //   ),
+                    //   keyboardType: TextInputType.url,
+                    //   validator: (value) {
+                    //     if (value != "" && !Uri.parse(value!).isAbsolute) {
+                    //       return 'Please enter a valid link';
+                    //     }
+                    //   },
+                    //   textInputAction: TextInputAction.done,
+                    // ),
                     Consumer<NewRecipeState>(
                       builder: (context, recipeState, _) => RecipeTypeSelector(
                         state: recipeState.recipeType,
@@ -133,6 +181,8 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
       ]),
     );
   }
+
+  void _findImage() {}
 }
 
 class NewRecipeState extends ChangeNotifier {

@@ -15,6 +15,7 @@ class RecipeTypeSelector extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(elevation: 0),
