@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recipes_app/main.dart';
+import 'package:path/path.dart' as path;
 
 class FirebaseService extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -12,6 +17,7 @@ class FirebaseService extends ChangeNotifier {
   List<String> favorites = [];
   final CollectionReference _recipes =
       FirebaseFirestore.instance.collection('recipes');
+  FirebaseStorage storage = FirebaseStorage.instance;
 
   FirebaseService() {
     initUser();
@@ -67,12 +73,6 @@ class FirebaseService extends ChangeNotifier {
     user = null;
     notifyListeners();
   }
-
-  //this should be replaced by the Provider in some fashion
-  // Future<User?> getSignedInAccount() async {
-  //   User? result = FirebaseAuth.instance.currentUser;
-  //   return result;
-  // }
 
   Future<List<String>> getFavorites() async {
     DocumentSnapshot querySnapshot = await FirebaseFirestore.instance
@@ -131,5 +131,43 @@ class FirebaseService extends ChangeNotifier {
       print('Error: $error');
       return false;
     });
+  }
+
+  Future<String> uploadImage(String inputSource) async {
+    final picker = ImagePicker();
+    XFile? pickedImage;
+    try {
+      pickedImage = await picker.pickImage(
+        source:
+            inputSource == 'camera' ? ImageSource.camera : ImageSource.gallery,
+        maxWidth: 1920,
+      );
+
+      final String fileName = path.basename(pickedImage!.path);
+      File imageFile = File(pickedImage.path);
+
+      try {
+        //uploading the selected iamge with some custom meta data
+        await storage.ref(fileName).putFile(imageFile);
+
+        return storage.ref(fileName).getDownloadURL();
+      } on FirebaseException catch (error) {
+        // if (kDebugMode) {
+        //   print(error);
+        // }
+        snackbarKey.currentState?.showSnackBar(const SnackBar(
+          content: Text('There was a problem uploading your image'),
+        ));
+        return '';
+      }
+    } catch (err) {
+      // if (kDebugMode) {
+      //   print(err);
+      // }
+      snackbarKey.currentState?.showSnackBar(const SnackBar(
+        content: Text('There was a problem uploading your image'),
+      ));
+      return '';
+    }
   }
 }

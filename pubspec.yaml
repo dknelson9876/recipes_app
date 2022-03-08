@@ -28,9 +28,11 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   duration: ^3.0.11
+  firebase_storage: ^10.2.9
   flex_color_scheme: ^4.2.0
   flutter:
     sdk: flutter
+  image_picker: ^0.8.4+10
   provider: ^6.0.2
   # duration: ^2.0.0 
 

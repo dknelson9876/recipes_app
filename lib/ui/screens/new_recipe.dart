@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes_app/model/recipe.dart';
 import 'package:recipes_app/services/firebase_service.dart';
+import 'package:recipes_app/ui/widgets/photo_select_button.dart';
 import 'package:recipes_app/ui/widgets/recipe_type_selector.dart';
 
 class NewRecipeScreen extends StatefulWidget {
@@ -56,39 +57,7 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                         return null;
                       },
                     ),
-                    GestureDetector(
-                      onTap: _findImage,
-                      child: Container(
-                        margin: const EdgeInsets.all(8),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 12),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(16),
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary,
-                              foregroundColor:
-                                  Theme.of(context).colorScheme.onSecondary,
-                              child: const Icon(Icons.insert_photo),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Add photo',
-                              style: Theme.of(context).textTheme.labelLarge,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    const PhotoSelectButton(),
                     TextFormField(
                       onSaved: (value) => _duration = int.tryParse(value!),
                       decoration: InputDecoration(
@@ -181,8 +150,6 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
       ]),
     );
   }
-
-  void _findImage() {}
 }
 
 class NewRecipeState extends ChangeNotifier {
@@ -192,101 +159,11 @@ class NewRecipeState extends ChangeNotifier {
     _recipeType = recipeType;
     notifyListeners();
   }
+
+  String imageURL = '';
+  // String get imageURL => _imageURL;
+  // set imageURL(String imageURL) {
+  //   _imageURL = imageURL;
+  //   notifyListeners();
+  // }
 }
-
-
-// Future<void> createRecipe(BuildContext context, RecipeType recipeType) async {
-//   TextEditingController _nameController = TextEditingController();
-//   TextEditingController _timeController = TextEditingController();
-//   TextEditingController _ingredientsController = TextEditingController();
-//   TextEditingController _preparationController = TextEditingController();
-//   TextEditingController _imageLinkController = TextEditingController();
-
-//   await showModalBottomSheet(
-//     isScrollControlled: true,
-//     context: context,
-//     builder: (BuildContext context) {
-//       return Padding(
-//         padding: EdgeInsets.only(
-//           top: 20,
-//           left: 20,
-//           right: 20,
-//           bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-//         ),
-//         child: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             TextField(
-//               controller: _nameController,
-//               decoration: const InputDecoration(labelText: 'Name'),
-//             ),
-//             TextField(
-//               controller: _timeController,
-//               decoration: const InputDecoration(labelText: 'Time'),
-//             ),
-//             TextField(
-//               controller: _ingredientsController,
-//               decoration: const InputDecoration(
-//                 labelText: 'Ingredients',
-//                 helperText: 'Separate list using semicolons \';\'',
-//               ),
-//             ),
-//             TextField(
-//               controller: _preparationController,
-//               decoration: const InputDecoration(
-//                 labelText: 'Preparation Steps',
-//                 helperText: 'Separate list using semicolons \';\'',
-//               ),
-//             ),
-//             TextField(
-//               controller: _imageLinkController,
-//               decoration: const InputDecoration(labelText: 'Link to image'),
-//             ),
-//             const SizedBox(height: 20),
-//             Row(
-//               children: [
-//                 const Spacer(),
-//                 ElevatedButton(
-//                   child: const Text('Submit'),
-//                   onPressed: () async {
-//                     // print('submit');
-
-//                     final String? name = _nameController.text;
-//                     final int? duration = int.tryParse(_timeController.text);
-//                     final List<String>? ingredients =
-//                         _ingredientsController.text.split(';');
-//                     final List<String>? preparation =
-//                         _preparationController.text.split(';');
-//                     final String? imageLink = _imageLinkController.text;
-
-//                     Object recipe = {
-//                       'name': name,
-//                       'duration': duration ?? 0,
-//                       'ingredients': ingredients,
-//                       'preparation': preparation,
-//                       'image': imageLink,
-//                       'type': recipeType.index,
-//                     };
-
-//                     context
-//                         .read<FirebaseService>()
-//                         .uploadRecipe(context, recipe);
-
-//                     _nameController.clear();
-//                     _timeController.clear();
-//                     _ingredientsController.clear();
-//                     _preparationController.clear();
-//                     _imageLinkController.clear();
-
-//                     Navigator.of(context).pop();
-//                   },
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       );
-//     },
-//   );
-// }
