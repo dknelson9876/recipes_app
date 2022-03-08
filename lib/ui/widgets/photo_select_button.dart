@@ -138,6 +138,7 @@ class _PhotoSelectButtonState extends State<PhotoSelectButton> {
 
                       Navigator.popUntil(
                           context, ModalRoute.withName('/newRecipe'));
+                      _imageLocation = ImageSourceLocation.local;
 
                       setState(() {});
                     }),
@@ -170,6 +171,7 @@ class _PhotoSelectButtonState extends State<PhotoSelectButton> {
 
                     Navigator.popUntil(
                         context, ModalRoute.withName('/newRecipe'));
+                    _imageLocation = ImageSourceLocation.local;
 
                     setState(() {});
                   },

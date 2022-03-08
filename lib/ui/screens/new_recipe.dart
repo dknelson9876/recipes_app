@@ -21,7 +21,6 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
   int? _duration;
   List<String>? _ingredients;
   List<String>? _preparation;
-  String? _imageLink;
 
   @override
   Widget build(BuildContext context) {
@@ -95,20 +94,6 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                       ),
                       textInputAction: TextInputAction.next,
                     ),
-                    // TextFormField(
-                    //   onSaved: (value) => {_imageLink = value},
-                    //   decoration: InputDecoration(
-                    //     labelText: 'Link to Image',
-                    //     border: border,
-                    //   ),
-                    //   keyboardType: TextInputType.url,
-                    //   validator: (value) {
-                    //     if (value != "" && !Uri.parse(value!).isAbsolute) {
-                    //       return 'Please enter a valid link';
-                    //     }
-                    //   },
-                    //   textInputAction: TextInputAction.done,
-                    // ),
                     Consumer<NewRecipeState>(
                       builder: (context, recipeState, _) => RecipeTypeSelector(
                         state: recipeState.recipeType,
@@ -132,7 +117,9 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                       'duration': _duration,
                       'ingredients': _ingredients,
                       'preparation': _preparation,
-                      'image': _imageLink,
+                      'image':
+                          Provider.of<NewRecipeState>(context, listen: false)
+                              .imageURL,
                       'type': context.read<NewRecipeState>().recipeType.index,
                     };
 
