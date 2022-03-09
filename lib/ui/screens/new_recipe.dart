@@ -46,8 +46,12 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                     TextFormField(
                       // controller: _nameController,
                       onSaved: (value) => {_name = value},
-                      decoration:
-                          InputDecoration(labelText: 'Name', border: border),
+                      decoration: InputDecoration(
+                        labelText: 'Name',
+                        border: border,
+                        prefixIcon: const Icon(Icons.menu_book),
+                      ),
+
                       textInputAction: TextInputAction.next,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -62,6 +66,7 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                       decoration: InputDecoration(
                         labelText: 'Duration',
                         border: border,
+                        prefixIcon: const Icon(Icons.timer),
                       ),
                       keyboardType:
                           const TextInputType.numberWithOptions(decimal: false),
@@ -81,6 +86,7 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                         labelText: 'Ingredients',
                         helperText: 'Separate list using semicolons \';\'',
                         border: border,
+                        prefixIcon: Icon(Icons.scale),
                       ),
                       textInputAction: TextInputAction.next,
                     ),
@@ -91,6 +97,7 @@ class _NewRecipeScreenState extends State<NewRecipeScreen> {
                         labelText: 'Preparation',
                         helperText: 'Separate list using semicolons \';\'',
                         border: border,
+                        prefixIcon: Icon(Icons.restaurant_menu),
                       ),
                       textInputAction: TextInputAction.next,
                     ),

@@ -10,7 +10,7 @@ import 'package:recipes_app/services/firebase_service.dart';
 // import 'package:recipes_app/state_widget.dart';
 import 'package:recipes_app/ui/screens/login.dart';
 import 'package:recipes_app/ui/screens/new_recipe.dart';
-import 'package:recipes_app/ui/widgets/settings_button.dart';
+import 'package:recipes_app/ui/widgets/sign_in_out_button.dart';
 import 'package:recipes_app/utils/store.dart';
 import 'package:recipes_app/ui/widgets/recipe_card.dart';
 
@@ -165,71 +165,16 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Column _buildSettings() {
-    //Delay this somehow till after account is loaded
-    // return Center(
-    //   child: Column(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     children: [
-    //       Text(user!.email!),
-    //       Text(user!.displayName!),
-    //       CircleAvatar(
-    //         backgroundImage: NetworkImage(user!.photoURL!),
-    //         radius: 20,
-    //       ),
-    //     ],
-    //   ),
-    // );
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
+        Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            SettingsButton(
-              Icons.exit_to_app,
-              "Log out",
-              // appState?.user!.displayName ?? 'User',
-              context.select<FirebaseService, String>(
-                (service) => service.user?.displayName ?? 'Sign in',
-              ),
-              () async {
+            SignInOutButton(
+              onPressed: () async {
                 await context.read<FirebaseService>().signOutFromGoogle();
               },
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: (() {
-                String? photoURL = context.select<FirebaseService, String?>(
-                    (service) => service.user?.photoURL);
-
-                if (photoURL == null) {
-                  return const CircleAvatar(
-                    child: Text('U'),
-                  );
-                } else {
-                  return CircleAvatar(backgroundImage: NetworkImage(photoURL));
-                }
-              }()),
-
-              // child: (() {
-              //     String photoURL = context.select<FirebaseService, String>(
-              //     (service) => service.user!.photoURL!;
-
-              //     if(photURL == null){
-              //       return CircleAvatar(backgroundColor: Theme.of(context).primaryColor,);
-              //     } else {
-
-              //   return CircleAvatar(backgroundImage: NetworkImage(photoURL));
-              //     }
-
-              // }())
-
-              //   NetworkImage(context.select<FirebaseService, String>(
-              // (service) => service.user!.photoURL!,
-              // ) /*appState!.user!.photoURL!*/),
-              // radius: 20,
-              // ),
             ),
           ],
         ),
@@ -239,7 +184,6 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // appState = StateWidget.of(context).state;
     return _buildContent();
   }
 }
