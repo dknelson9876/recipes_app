@@ -1,3 +1,4 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +12,7 @@ import 'package:recipes_app/services/firebase_service.dart';
 // import 'package:recipes_app/state_widget.dart';
 import 'package:recipes_app/ui/screens/login.dart';
 import 'package:recipes_app/ui/screens/new_recipe.dart';
+import 'package:recipes_app/ui/widgets/color_scheme_switcher.dart';
 import 'package:recipes_app/ui/widgets/sign_in_out_button.dart';
 import 'package:recipes_app/ui/widgets/theme_mode_switcher.dart';
 import 'package:recipes_app/utils/store.dart';
@@ -183,6 +185,14 @@ class HomeScreenState extends State<HomeScreen> {
               onThemeModeChanged: (ThemeMode newMode) {
                 Provider.of<ThemeProvider>(context, listen: false).themeMode =
                     newMode;
+                setState(() {});
+              },
+            ),
+            ColorSchemeSwitcher(
+              colorScheme: context.read<ThemeProvider>().colorScheme,
+              onSchemeChanged: (FlexScheme newScheme) {
+                Provider.of<ThemeProvider>(context, listen: false).colorScheme =
+                    newScheme;
                 setState(() {});
               },
             ),

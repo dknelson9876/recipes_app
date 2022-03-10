@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipes_app/model/theme_provider.dart';
 
-ThemeData buildTheme(context) {
+ThemeData buildTheme(context, {bool? isDark}) {
   TextTheme _buildTextTheme(TextTheme base) {
     return base.copyWith(
       headline2: base.headline2?.copyWith(
@@ -23,14 +23,20 @@ ThemeData buildTheme(context) {
   }
 
   final ThemeData base;
-  switch (Provider.of<ThemeProvider>(context, listen: false).themeMode) {
-    case ThemeMode.dark:
-      base = FlexColorScheme.dark(scheme: FlexScheme.jungle).toTheme;
-      break;
-    case ThemeMode.light:
-    default:
-      base = FlexColorScheme.light(scheme: FlexScheme.jungle).toTheme;
-      break;
+  final FlexScheme colorScheme =
+      Provider.of<ThemeProvider>(context, listen: false).colorScheme;
+  if (isDark ?? false) {
+    base = FlexColorScheme.dark(scheme: colorScheme).toTheme;
+  } else {
+    switch (Provider.of<ThemeProvider>(context, listen: false).themeMode) {
+      case ThemeMode.dark:
+        base = FlexColorScheme.dark(scheme: colorScheme).toTheme;
+        break;
+      case ThemeMode.light:
+      default:
+        base = FlexColorScheme.light(scheme: colorScheme).toTheme;
+        break;
+    }
   }
 
   return base.copyWith(

@@ -29,6 +29,7 @@ class RecipesApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Recipes',
           theme: buildTheme(context),
+          darkTheme: buildTheme(context, isDark: true),
           themeMode: context.watch<ThemeProvider>().themeMode,
           scaffoldMessengerKey: snackbarKey,
           routes: {
