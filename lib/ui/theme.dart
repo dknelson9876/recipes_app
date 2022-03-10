@@ -1,7 +1,9 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:recipes_app/model/theme_provider.dart';
 
-ThemeData buildTheme() {
+ThemeData buildTheme(context) {
   TextTheme _buildTextTheme(TextTheme base) {
     return base.copyWith(
       headline2: base.headline2?.copyWith(
@@ -20,8 +22,16 @@ ThemeData buildTheme() {
     );
   }
 
-  final ThemeData base =
-      FlexColorScheme.light(scheme: FlexScheme.jungle).toTheme;
+  final ThemeData base;
+  switch (Provider.of<ThemeProvider>(context, listen: false).themeMode) {
+    case ThemeMode.dark:
+      base = FlexColorScheme.dark(scheme: FlexScheme.jungle).toTheme;
+      break;
+    case ThemeMode.light:
+    default:
+      base = FlexColorScheme.light(scheme: FlexScheme.jungle).toTheme;
+      break;
+  }
 
   return base.copyWith(
     textTheme: _buildTextTheme(base.textTheme),

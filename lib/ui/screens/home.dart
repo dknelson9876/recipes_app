@@ -5,12 +5,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
 import 'package:recipes_app/model/recipe.dart';
+import 'package:recipes_app/model/theme_provider.dart';
 // import 'package:recipes_app/model/state.dart';
 import 'package:recipes_app/services/firebase_service.dart';
 // import 'package:recipes_app/state_widget.dart';
 import 'package:recipes_app/ui/screens/login.dart';
 import 'package:recipes_app/ui/screens/new_recipe.dart';
 import 'package:recipes_app/ui/widgets/sign_in_out_button.dart';
+import 'package:recipes_app/ui/widgets/theme_mode_switcher.dart';
 import 'package:recipes_app/utils/store.dart';
 import 'package:recipes_app/ui/widgets/recipe_card.dart';
 
@@ -174,6 +176,14 @@ class HomeScreenState extends State<HomeScreen> {
             SignInOutButton(
               onPressed: () async {
                 await context.read<FirebaseService>().signOutFromGoogle();
+              },
+            ),
+            ThemeModeSwitcher(
+              themeMode: context.read<ThemeProvider>().themeMode,
+              onThemeModeChanged: (ThemeMode newMode) {
+                Provider.of<ThemeProvider>(context, listen: false).themeMode =
+                    newMode;
+                setState(() {});
               },
             ),
           ],
