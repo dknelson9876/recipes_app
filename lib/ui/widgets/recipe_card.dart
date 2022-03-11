@@ -32,7 +32,7 @@ class RecipeCard extends StatelessWidget {
           favorites.contains(recipe.id)
               ? Icons.favorite
               : Icons.favorite_border,
-          // color: Theme.of(context).iconTheme.color,
+          color: Theme.of(context).colorScheme.primary,
         ),
         elevation: 2.0,
         // fillColor: Theme.of(context).buttonColor,
