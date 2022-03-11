@@ -27,7 +27,7 @@ class SignInOutButton extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title),
+              const Text("Log out"),
               const SizedBox(height: 5.0),
               Text(caption, style: Theme.of(context).textTheme.caption),
             ],

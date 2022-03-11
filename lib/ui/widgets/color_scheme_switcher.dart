@@ -21,8 +21,12 @@ class _ColorSchemeSwitcherState extends State<ColorSchemeSwitcher> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Icon(Icons.light_mode),
-        const SizedBox(width: 8),
+        const SizedBox(width: 20),
+        Icon(
+          Icons.color_lens,
+          color: Theme.of(context).colorScheme.onBackground,
+        ),
+        const SizedBox(width: 20),
         const Text('Color Scheme'),
         const Spacer(),
         DropdownButton<FlexScheme>(

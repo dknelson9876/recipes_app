@@ -19,8 +19,12 @@ class _ThemeModeSwitcherState extends State<ThemeModeSwitcher> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Icon(Icons.light_mode),
-        const SizedBox(width: 8),
+        const SizedBox(width: 20),
+        Icon(
+          Icons.light_mode,
+          color: Theme.of(context).colorScheme.onBackground,
+        ),
+        const SizedBox(width: 20),
         const Text('Theme'),
         const Spacer(),
         DropdownButton<ThemeMode>(
